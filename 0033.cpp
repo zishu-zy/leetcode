@@ -1,16 +1,5 @@
 
-#include <assert.h>
-#include <limits.h>
-#include <math.h>
-#include <algorithm>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stack>
-#include <tuple>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
+#include "data_define.h"
 
 using namespace std;
 /*
