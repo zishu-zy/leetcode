@@ -9,6 +9,7 @@
 
 #include "data_define.h"
 
+// 最快的
 class Solution
 {
 public:
@@ -58,6 +59,7 @@ public:
     }
 };
 
+// 自己的
 // class Solution
 // {
 // public:
