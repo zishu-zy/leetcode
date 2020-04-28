@@ -32,4 +32,10 @@ void print(const vector<T> &t)
     std::cout << std::endl;
 }
 
+static int n = []() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    return 0;
+}();
+
 #endif // DATA_DEFINE_H_
