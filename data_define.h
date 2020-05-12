@@ -32,6 +32,14 @@ void print(const vector<T> &t)
     std::cout << std::endl;
 }
 
+template <typename T>
+void print(const vector<vector<T> > &t)
+{
+    for (auto it = t.begin(); it != t.end(); ++it) {
+        print(*it);
+    }
+}
+
 static int n = []() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
