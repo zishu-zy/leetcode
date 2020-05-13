@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <set>
 #include <sstream>
 #include <stack>
@@ -33,7 +34,7 @@ void print(const vector<T> &t)
 }
 
 template <typename T>
-void print(const vector<vector<T> > &t)
+void print(const vector<vector<T>> &t)
 {
     for (auto it = t.begin(); it != t.end(); ++it) {
         print(*it);
