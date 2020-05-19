@@ -15,4 +15,7 @@ set(INCLUDE_PATH ./)
 include_directories("${INCLUDE_PATH}")
 
 # 编译源码生成目标
-add_executable(leetCode 1095.cpp)
+add_executable(leetCode 0010.cpp)
+
+# 添加动态库
+target_link_libraries(leetCode gtest)
