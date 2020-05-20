@@ -45,11 +45,11 @@ public:
     }
 };
 
-// 未进行路径记录
 // class Solution
 // {
 // public:
-//     bool helper(string &s, string &p, int n_s, int n_p)
+//     bool helper(string &s, string &p, int n_s, int n_p,
+//                 vector<vector<bool>> &vec_vec_dp)
 //     {
 //         int nSLen = s.size();
 //         int nPLen = p.size();
@@ -57,8 +57,10 @@ public:
 //         int j = n_p;
 //         bool bRet = false;
 //         while (i < nSLen && j < nPLen) {
-//             if (j + 1 < nPLen && p.at(j + 1) == '*') {
-//                 bool bTmp = helper(s, p, i, j + 2); // 不进行匹配
+//             if (j + 1 < nPLen && p.at(j + 1) == '*' &&
+//                 !vec_vec_dp.at(i).at(j + 2)) {
+//                 vec_vec_dp[i][j + 2] = true;
+//                 bool bTmp = helper(s, p, i, j + 2, vec_vec_dp); // 不进行匹配
 //                 if (bTmp) {
 //                     bRet = bTmp;
 //                     break;
@@ -68,10 +70,13 @@ public:
 //                 ++i;
 //                 ++j;
 //             } else if (p.at(j) == '*') {
-//                 bool bTmp = helper(s, p, i, j + 1); // 不进行匹配
-//                 if (bTmp) {
-//                     bRet = bTmp;
-//                     break;
+//                 if (!vec_vec_dp.at(i).at(j + 1)) {
+//                     bool bTmp =
+//                         helper(s, p, i, j + 1, vec_vec_dp); // 不进行匹配
+//                     if (bTmp) {
+//                         bRet = bTmp;
+//                         break;
+//                     }
 //                 }
 //                 if (p.at(j - 1) == s.at(i) || p.at(j - 1) == '.') {
 //                     ++i;
@@ -101,7 +106,12 @@ public:
 //         }
 //         return bRet;
 //     }
-//     bool isMatch(string s, string p) { return helper(s, p, 0, 0); }
+//     bool isMatch(string s, string p)
+//     {
+//         vector<vector<bool>> vecVecDp(s.size() + 1,
+//                                       vector<bool>(p.size() + 1, false));
+//         return helper(s, p, 0, 0, vecVecDp);
+//     }
 // };
 
 TEST(leetcode, isMatch)
