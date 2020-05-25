@@ -68,6 +68,23 @@ std::string getString(const vector<T> &t)
     return strRet;
 }
 
+template <>
+std::string getString(const vector<string> &t)
+{
+    std::string strRet;
+    for (auto it = t.begin(); it != t.end(); ++it) {
+        if (strRet.empty()) {
+            strRet.append("[");
+            strRet.append(*it);
+        } else {
+            strRet.append(",");
+            strRet.append(*it);
+        }
+    }
+    strRet.append("]");
+    return strRet;
+}
+
 template <typename T>
 std::string getString(const vector<vector<T>> &t)
 {
@@ -104,6 +121,7 @@ bool isEqualWithoutOrder(const vector<T> &t1, const vector<T> &t2)
     return bRet;
 }
 
+// 第一维不要求顺序，第二维要求
 template <typename T>
 bool isEqualWithoutOrder(const vector<vector<T>> &t1,
                          const vector<vector<T>> &t2)
@@ -119,6 +137,35 @@ bool isEqualWithoutOrder(const vector<vector<T>> &t1,
     for (int i = 0; i < (int)t1.size() && bRet; ++i) {
         if (find(t2.begin(), t2.end(), t1.at(i)) == t2.end()) {
             bRet = false;
+        }
+    }
+    return bRet;
+}
+
+// 第一维和第二维都不要求顺序
+template <typename T>
+bool isEqualWithoutOrder_2(const vector<vector<T>> &t1,
+                           const vector<vector<T>> &t2)
+{
+    if (t1.size() != t2.size())
+        return false;
+    bool bRet = true;
+    for (int i = 0; i < (int)t1.size() && bRet; ++i) {
+        bRet = false;
+        for (int j = 0; j < (int)t2.size(); ++j) {
+            if (isEqualWithoutOrder(t1.at(i), t2.at(j))) {
+                bRet = true;
+                break;
+            }
+        }
+    }
+    for (int i = 0; i < (int)t2.size() && bRet; ++i) {
+        bRet = false;
+        for (int j = 0; j < (int)t1.size(); ++j) {
+            if (isEqualWithoutOrder(t2.at(i), t1.at(j))) {
+                bRet = true;
+                break;
+            }
         }
     }
     return bRet;
