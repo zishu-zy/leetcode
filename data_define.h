@@ -123,8 +123,7 @@ bool isEqualWithoutOrder(const vector<T> &t1, const vector<T> &t2)
 
 // 第一维不要求顺序，第二维要求
 template <typename T>
-bool isEqualWithoutOrder(const vector<vector<T>> &t1,
-                         const vector<vector<T>> &t2)
+bool isEqualWithoutOrder(const vector<vector<T>> &t1, const vector<vector<T>> &t2)
 {
     if (t1.size() != t2.size())
         return false;
@@ -144,8 +143,7 @@ bool isEqualWithoutOrder(const vector<vector<T>> &t1,
 
 // 第一维和第二维都不要求顺序
 template <typename T>
-bool isEqualWithoutOrder_2(const vector<vector<T>> &t1,
-                           const vector<vector<T>> &t2)
+bool isEqualWithoutOrder_2(const vector<vector<T>> &t1, const vector<vector<T>> &t2)
 {
     if (t1.size() != t2.size())
         return false;
@@ -169,6 +167,73 @@ bool isEqualWithoutOrder_2(const vector<vector<T>> &t1,
         }
     }
     return bRet;
+}
+
+// 链表相关
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+ListNode *initListNode(std::vector<int> &&vec)
+{
+    ListNode *root = NULL;
+    ListNode *preNode = NULL;
+    ListNode *tmp = NULL;
+    for (int i = 0; i < (int)vec.size(); ++i) {
+        tmp = new ListNode(vec[i]);
+        if (preNode != NULL) {
+            preNode->next = tmp;
+        } else {
+            root = tmp;
+        }
+        preNode = tmp;
+    }
+    return root;
+}
+
+bool isEqualListNode(ListNode *l1, ListNode *l2)
+{
+    ListNode *tmp1 = l1;
+    ListNode *tmp2 = l2;
+    bool bRet = true;
+    while (tmp1 != NULL && tmp2 != NULL) {
+        if (tmp1->val != tmp2->val) {
+            bRet = false;
+            break;
+        }
+        tmp1 = tmp1->next;
+        tmp2 = tmp2->next;
+    }
+    if (bRet && tmp1 != tmp2) {
+        bRet = false;
+    }
+    return bRet;
+}
+
+std::string getString(ListNode *root)
+{
+    ListNode *tmp = root;
+    std::string strRet = "[";
+    while (tmp != NULL) {
+        strRet.append(std::to_string(tmp->val));
+        strRet.append(" ");
+        tmp = tmp->next;
+    }
+    strRet.append("]");
+    return strRet;
+}
+
+void print(ListNode *root)
+{
+    ListNode *tmp = root;
+    std::cout << "[";
+    while (tmp != NULL) {
+        std::cout << tmp->val << " ";
+        tmp = tmp->next;
+    }
+    std::cout << "]" << std::endl;
 }
 
 static int n = []() {
