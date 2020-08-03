@@ -60,7 +60,7 @@ std::string getString(const vector<T> &t)
             strRet.append("[");
             strRet.append(std::to_string(*it));
         } else {
-            strRet.append(",");
+            strRet.append(", ");
             strRet.append(std::to_string(*it));
         }
     }
@@ -77,7 +77,7 @@ std::string getString(const vector<string> &t)
             strRet.append("[");
             strRet.append(*it);
         } else {
-            strRet.append(",");
+            strRet.append(", ");
             strRet.append(*it);
         }
     }
