@@ -52,6 +52,11 @@ std::string getString(const T &t)
     return std::to_string(t);
 }
 
+std::string getString(bool t)
+{
+    return t ? "true" : "false";
+}
+
 template <typename T>
 std::string getString(const vector<T> &t)
 {
