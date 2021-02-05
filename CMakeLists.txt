@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.9)
 # 工程名称
 project(leetCode)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # 设置
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_BUILD_TYPE "Debug")
@@ -15,7 +17,7 @@ set(INCLUDE_PATH ./)
 include_directories("${INCLUDE_PATH}")
 
 # 编译源码生成目标
-add_executable(leetCode 0047.cpp)
+add_executable(leetCode 0077.cpp)
 
 # 添加动态库
 target_link_libraries(leetCode gtest gmock)
