@@ -52,6 +52,11 @@ std::string getString(const T &t)
     return std::to_string(t);
 }
 
+std::string getString(char t)
+{
+    return std::string(1, t);
+}
+
 std::string getString(bool t)
 {
     return t ? "true" : "false";
@@ -64,10 +69,10 @@ std::string getString(const vector<T> &t)
     for (auto it = t.begin(); it != t.end(); ++it) {
         if (strRet.empty()) {
             strRet.append("[");
-            strRet.append(std::to_string(*it));
+            strRet.append(getString(*it));
         } else {
             strRet.append(", ");
-            strRet.append(std::to_string(*it));
+            strRet.append(getString(*it));
         }
     }
     strRet.append("]");
