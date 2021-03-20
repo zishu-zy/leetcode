@@ -6,92 +6,89 @@ class Solution
 public:
     int maximalRectangle(vector<vector<char>> &matrix)
     {
-        if (matrix.empty()) {
+        int m = matrix.size();
+        if (m == 0) {
             return 0;
         }
-        size_t nRow = matrix.size();
-        size_t nCol = matrix[0].size();
-        std::vector<std::vector<int>> vecRow(nRow, std::vector<int>(nCol, 0));
-        std::vector<std::vector<int>> vecCol(nRow, std::vector<int>(nCol, 0));
-        std::vector<std::vector<int>> vecBev(nRow, std::vector<int>(nCol, 0));
+        int n = matrix[0].size();
+        vector<vector<int>> left(m, vector<int>(n, 0));
 
-        vecRow[0][0] = matrix[0][0] == '1' ? 1 : 0;
-        vecCol[0][0] = vecRow[0][0];
-        vecBev[0][0] = vecRow[0][0];
-
-        int nRowMax = vecRow[0][0];
-        int nColMax = vecCol[0][0];
-        int nBevMax = vecBev[0][0];
-
-        for (size_t j = 1; j < nCol; j++) {
-            if (matrix[0][j] == '1') {
-                vecRow[0][j] = vecRow[0][j - 1] + 1;
-                nRowMax = max(nRowMax, vecRow[0][j]);
-                vecCol[0][j] = 1;
-                nColMax = 1;
-                vecBev[0][j] = 1;
-                nBevMax = 1;
-            } else {
-                vecRow[0][j] = 0;
-                vecCol[0][j] = 0;
-                vecBev[0][j] = 0;
-            }
-        }
-
-        for (size_t i = 1; i < nRow; i++) {
-            if (matrix[i][0] == '1') {
-                vecRow[i][0] = 1;
-                nRowMax = 1;
-                vecCol[i][0] = vecCol[i - 1][0] + 1;
-                nColMax = max(nColMax, vecCol[i][0]);
-                vecBev[i][0] = 1;
-                nBevMax = 1;
-            } else {
-                vecRow[i][0] = 0;
-                vecCol[i][0] = 0;
-                vecBev[i][0] = 0;
-            }
-        }
-
-        for (size_t i = 1; i < nRow; i++) {
-            for (size_t j = 1; j < nCol; j++) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (matrix[i][j] == '1') {
-                    vecRow[i][j] = vecRow[i][j - 1] + 1;
-                    nRowMax = max(nRowMax, vecRow[i][j]);
-
-                    vecCol[i][j] = vecCol[i - 1][j] + 1;
-                    nColMax = max(nColMax, vecCol[i][j]);
-
-                    if (matrix[i - 1][j] == '1' && matrix[i][j - 1] == '1' &&
-                        matrix[i - 1][j - 1] == '1') {
-                        vecBev[i][j] =
-                            vecBev[i - 1][j] + vecBev[i][j - 1] + vecBev[i - 1][j - 1] + 1;
-
-                        if (vecBev[i - 1][j] > vecBev[i - 1][j - 1]) {
-                            vecBev[i][j] -= vecBev[i - 1][j - 1];
-                        }
-
-                        if (vecBev[i][j - 1] > vecBev[i - 1][j - 1]) {
-                            vecBev[i][j] -= vecBev[i - 1][j - 1];
-                        }
-                    } else {
-                        vecBev[i][j] = 1;
-                    }
-                    nBevMax = max(nBevMax, vecBev[i][j]);
-                } else {
-                    vecBev[i][j] = 0;
+                    left[i][j] = (j == 0 ? 0 : left[i][j - 1]) + 1;
                 }
             }
         }
-        printf("start ----------- \n");
-        print(vecRow);
-        printf("----------- \n");
-        print(vecCol);
-        printf("----------- \n");
-        print(vecBev);
-        printf("end ----------- \n");
-        int nAreaRet = max(max(nRowMax, nColMax), nBevMax);
-        return nAreaRet;
+
+        int ret = 0;
+        for (int j = 0; j < n; j++) { // 对于每一列，使用基于柱状图的方法
+            vector<int> up(m, 0), down(m, 0);
+
+            stack<int> stk;
+            for (int i = 0; i < m; i++) {
+                while (!stk.empty() && left[stk.top()][j] >= left[i][j]) {
+                    stk.pop();
+                }
+                up[i] = stk.empty() ? -1 : stk.top();
+                stk.push(i);
+            }
+            stk = stack<int>();
+            for (int i = m - 1; i >= 0; i--) {
+                while (!stk.empty() && left[stk.top()][j] >= left[i][j]) {
+                    stk.pop();
+                }
+                down[i] = stk.empty() ? m : stk.top();
+                stk.push(i);
+            }
+
+            for (int i = 0; i < m; i++) {
+                int height = down[i] - up[i] - 1;
+                int area = height * left[i][j];
+                ret = max(ret, area);
+            }
+        }
+        return ret;
+    }
+};
+
+class Solution_1
+{
+public:
+    int maximalRectangle(vector<vector<char>> &matrix)
+    {
+        int m = matrix.size();
+        if (m == 0) {
+            return 0;
+        }
+        int n = matrix[0].size();
+        vector<vector<int>> left(m, vector<int>(n, 0));
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == '1') {
+                    left[i][j] = (j == 0 ? 0 : left[i][j - 1]) + 1;
+                }
+            }
+        }
+        print(left);
+
+        int ret = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == '0') {
+                    continue;
+                }
+                int width = left[i][j];
+                int area = width;
+                for (int k = i - 1; k >= 0; k--) {
+                    width = min(width, left[k][j]);
+                    area = max(area, (i - k + 1) * width);
+                }
+                ret = max(ret, area);
+            }
+        }
+        return ret;
     }
 };
 
@@ -101,7 +98,7 @@ TEST(Solution, leetcode)
     int output;
     int expected;
 
-    input = {{'0', '0', '0', '0', '0', '0', '1'},
+    input = {{'0', '1', '1', '0', '0', '0', '1'},
              {'0', '0', '0', '0', '1', '1', '1'},
              {'1', '1', '1', '1', '1', '1', '1'},
              {'0', '0', '0', '1', '1', '1', '1'}};
