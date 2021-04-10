@@ -71,14 +71,13 @@ template <typename T>
 std::string getString(const vector<T> &t)
 {
     std::string strRet;
+    strRet.append("[");
     for (auto it = t.begin(); it != t.end(); ++it) {
-        if (strRet.empty()) {
-            strRet.append("[");
-            strRet.append(getString(*it));
-        } else {
-            strRet.append(", ");
-            strRet.append(getString(*it));
-        }
+        strRet.append(getString(*it));
+        strRet.append(", ");
+    }
+    if (strRet.size() != 1) {
+        strRet.pop_back();
     }
     strRet.append("]");
     return strRet;
