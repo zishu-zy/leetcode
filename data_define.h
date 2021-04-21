@@ -184,7 +184,7 @@ bool isEqualWithoutOrder_2(const vector<vector<T>> &t1, const vector<vector<T>> 
     return bRet;
 }
 
-// 链表相关
+// -------------------------- 链表相关 --------------------------
 struct ListNode {
     int val;
     ListNode *next;
@@ -252,6 +252,16 @@ void print(ListNode *root)
     }
     std::cout << "]" << std::endl;
 }
+
+// -------------------------- 二叉树相关 --------------------------
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
 
 static int n = []() {
     std::ios::sync_with_stdio(false);
